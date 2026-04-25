@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fawzia Aboubakar — Data Analyst</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0e0e0e;
+      --white: #f5f3ef;
+      --grey-light: #e8e5df;
+      --grey-mid: #a09e99;
+      --grey-dark: #3a3835;
+      --accent: #c8a96e;
+      --accent-pale: #f0e8d6;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(245,243,239,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--grey-light);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.06); }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey-dark);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 5rem 6rem 5rem;
+      position: relative;
+    }
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      right: -1px; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--accent) 40%, var(--accent) 60%, transparent);
+    }
+    .hero-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 4vw, 4.5rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+    .hero-name span { color: var(--accent); }
+    .hero-tagline {
+      font-size: 1.05rem;
+      color: var(--grey-mid);
+      max-width: 360px;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.6s forwards;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.8s forwards;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--black);
+    }
+    .btn-primary:hover { background: transparent; color: var(--accent); }
+    .btn-outline {
+      background: transparent;
+      border-color: var(--grey-dark);
+      color: var(--grey-mid);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-right {
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 8rem 5rem 6rem 5rem;
+    }
+    .hero-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.9s forwards;
+    }
+    .stat-item { border-left: 2px solid var(--accent); padding-left: 1.5rem; }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 600;
+      line-height: 1;
+      color: var(--black);
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: var(--grey-mid);
+      text-transform: uppercase;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.5s forwards;
+    }
+    .hero-scroll span {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--grey-mid), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+
+    /* ── SECTIONS COMMUNES ── */
+    section { padding: 7rem 0; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 4rem; }
+    .section-header { margin-bottom: 4rem; }
+    .section-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--black);
+    }
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      margin-top: 1.2rem;
+    }
+
+    /* ── À PROPOS ── */
+    #about { background: var(--white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-text p {
+      color: var(--grey-dark);
+      margin-bottom: 1.2rem;
+      font-size: 1.02rem;
+    }
+    .about-text p strong { color: var(--black); font-weight: 500; }
+    .about-details {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--grey-light);
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-key {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+    }
+    .detail-val {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--black);
+    }
+
+    /* ── COMPÉTENCES ── */
+    #skills { background: var(--black); }
+    #skills .section-title { color: var(--white); }
+    #skills .section-tag { color: var(--accent); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .skill-card {
+      background: var(--grey-dark);
+      padding: 2.5rem;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .skill-card:hover { background: #2a2825; }
+    .skill-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+    .skill-card-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-tag {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--grey-mid);
+      border: 1px solid var(--grey-dark);
+      padding: 0.25rem 0.75rem;
+      background: rgba(255,255,255,0.04);
+    }
+    .skill-tag.accent { color: var(--accent); border-color: rgba(200,169,110,0.3); }
+
+    /* ── PROJETS ── */
+    #projects { background: var(--white); }
+    .projects-list { display: flex; flex-direction: column; gap: 2px; }
+    .project-card {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 3rem;
+      padding: 2.5rem 3rem;
+      background: var(--grey-light);
+      text-decoration: none;
+      transition: background 0.25s, transform 0.25s;
+      border-left: 3px solid transparent;
+    }
+    .project-card:hover {
+      background: var(--accent-pale);
+      border-left-color: var(--accent);
+      transform: translateX(4px);
+    }
+    .project-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--grey-light);
+      -webkit-text-stroke: 1px var(--grey-mid);
+      line-height: 1;
+    }
+    .project-info {}
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.4rem;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--grey-mid);
+      max-width: 500px;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.4rem;
+    }
+    .project-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--grey-dark);
+      border: 1px solid var(--grey-mid);
+      padding: 0.2rem 0.7rem;
+      background: var(--white);
+    }
+    .project-card:hover .project-tag {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--black);
+      text-align: center;
+    }
+    #contact .section-title { color: var(--white); }
+    #contact .section-tag { color: var(--accent); }
+    #contact .divider { margin: 1.2rem auto 0; }
+    .contact-lead {
+      font-size: 1.05rem;
+      color: var(--grey-mid);
+      max-width: 480px;
+      margin: 2rem auto 3rem;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--grey-mid);
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border: 1px solid var(--grey-dark);
+      transition: all 0.25s;
+    }
+    .contact-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #080808;
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #1a1a1a;
+    }
+    footer p {
+      font-size: 0.78rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.15); }
+    }
+
+    /* ── REVEAL ON SCROLL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 7rem 2.5rem 3rem; }
+      .hero-right { padding: 3rem 2.5rem 5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .project-card { grid-template-columns: 1fr; gap: 1rem; }
+      .project-num { font-size: 1.2rem; }
+      .container { padding: 0 2rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .skills-grid { grid-template-columns: 1fr; }
+      .project-card { padding: 1.8rem; }
+      .contact-links { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">F. Aboubakar</a>
+  <ul class="nav-links">
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-label">Portfolio · Data Analyst</p>
+    <h1 class="hero-name">Fawzia<br /><span>Aboubakar</span></h1>
+    <p class="hero-tagline">Étudiante en Mastère 1 Expert Informatique et Système d'Information · Spécialisation Data · EPSI Lyon — en recherche d'alternance.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">Voir mes projets</a>
+      <a href="https://github.com/FawziaAB" target="_blank" class="btn btn-outline">GitHub</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">4+</div>
+        <div class="stat-label">Projets data réalisés</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">M1</div>
+        <div class="stat-label">Expert Informatique & SI · EPSI Lyon</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">2026</div>
+        <div class="stat-label">Disponible en alternance</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Défiler</span>
+  </div>
+</section>
+
+<!-- À PROPOS -->
+<section id="about">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">01 — Profil</span>
+      <h2 class="section-title">Qui suis-je ?</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          Je m'appelle <strong>Fawzia Aboubakar</strong>, étudiante en <strong>Mastère 1 Expert Informatique et Système d'Information</strong> à l'EPSI Lyon, spécialisation Data. Passionnée par la donnée sous toutes ses formes, je conçois des solutions allant de l'ingénierie de données à la visualisation et au monitoring.
+        </p>
+        <p>
+          Mon parcours académique m'a permis de travailler sur des projets concrets : construction de datamarts, écriture de procédures SQL avancées, ou encore mise en place d'infrastructures de monitoring cloud avec Prometheus et Grafana.
+        </p>
+        <p>
+          Je suis actuellement à la recherche d'une <strong>alternance en tant que Data Analyst</strong> pour mettre mes compétences au service d'une équipe data ambitieuse.
+        </p>
+        <a href="#contact" class="btn btn-primary" style="margin-top:1.5rem;">Me contacter</a>
+      </div>
+      <div class="about-details reveal">
+        <div class="detail-row">
+          <span class="detail-key">Formation</span>
+          <span class="detail-val">Mastère 1 Expert Informatique & SI — EPSI Lyon</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-key">Spécialisation</span>
+          <span class="detail-val">Data (Analyse, BI, Ingénierie)</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-key">Disponibilité</span>
+          <span class="detail-val">Alternance · 2025–2026</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-key">Localisation</span>
+          <span class="detail-val">Lyon, France</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-key">GitHub</span>
+          <span class="detail-val"><a href="https://github.com/FawziaAB" target="_blank" style="color:var(--accent);text-decoration:none;">github.com/FawziaAB</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPÉTENCES -->
+<section id="skills">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">02 — Compétences</span>
+      <h2 class="section-title">Stack technique</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-card">
+        <div class="skill-card-icon">🗄️</div>
+        <div class="skill-card-title">Data Engineering</div>
+        <div class="skill-tags">
+          <span class="skill-tag accent">ETL / ELT</span>
+          <span class="skill-tag accent">Datamart</span>
+          <span class="skill-tag">SQL Server</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">📊</div>
+        <div class="skill-card-title">Business Intelligence</div>
+        <div class="skill-tags">
+          <span class="skill-tag accent">Power BI</span>
+          <span class="skill-tag accent">Tableau</span>
+          <span class="skill-tag">DAX</span>
+          <span class="skill-tag">Reporting</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">🐍</div>
+        <div class="skill-card-title">Programmation & Analyse</div>
+        <div class="skill-tags">
+          <span class="skill-tag accent">Python</span>
+          <span class="skill-tag">Pandas</span>
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">Jupyter</span>
+          <span class="skill-tag">SQL avancé</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">☁️</div>
+        <div class="skill-card-title">Cloud & DevOps</div>
+        <div class="skill-tags">
+          <span class="skill-tag accent">Docker</span>
+          <span class="skill-tag accent">Prometheus</span>
+          <span class="skill-tag">Grafana</span>
+          <span class="skill-tag">Linux / Debian</span>
+          <span class="skill-tag">Git</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">🤖</div>
+        <div class="skill-card-title">ML & Data Science</div>
+        <div class="skill-tags">
+          <span class="skill-tag accent">Scikit-learn</span>
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">Computer Vision</span>
+          <span class="skill-tag">Machine Learning</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">🌐</div>
+        <div class="skill-card-title">IoT & Réseaux</div>
+        <div class="skill-tags">
+          <span class="skill-tag accent">MQTT</span>
+          <span class="skill-tag">Raspberry Pi</span>
+          <span class="skill-tag">Arduino</span>
+          <span class="skill-tag">Protocoles réseaux</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">03 — Projets</span>
+      <h2 class="section-title">Réalisations</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="projects-list">
+      <a href="https://github.com/FawziaAB/datamart-etl" target="_blank" class="project-card reveal">
+        <div class="project-num">01</div>
+        <div class="project-info">
+          <div class="project-title">Datamart ETL</div>
+          <div class="project-desc">Conception et alimentation d'un datamart décisionnel — modélisation en étoile, pipeline ETL complet, chargements incrémentaux et contrôle qualité des données.</div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">SQL Server</span>
+          <span class="project-tag">ETL</span>
+          <span class="project-tag">Modélisation</span>
+        </div>
+      </a>
+      <a href="https://github.com/FawziaAB/sql-procedures" target="_blank" class="project-card reveal">
+        <div class="project-num">02</div>
+        <div class="project-info">
+          <div class="project-title">SQL — Procédures & Triggers</div>
+          <div class="project-desc">Développement de procédures stockées et de triggers avancés pour automatiser des règles métier complexes, assurer l'intégrité référentielle et optimiser les performances.</div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">SQL</span>
+          <span class="project-tag">Procédures stockées</span>
+          <span class="project-tag">Triggers</span>
+        </div>
+      </a>
+      <a href="https://github.com/FawziaAB/monitoring-stack" target="_blank" class="project-card reveal">
+        <div class="project-num">03</div>
+        <div class="project-info">
+          <div class="project-title">Stack Monitoring Prometheus / Grafana</div>
+          <div class="project-desc">Déploiement d'une infrastructure de monitoring complète sur VM Debian (VMware) — collecte de métriques avec Node Exporter, alertes Prometheus et dashboards Grafana personnalisés.</div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Prometheus</span>
+          <span class="project-tag">Grafana</span>
+          <span class="project-tag">Docker</span>
+          <span class="project-tag">Linux</span>
+        </div>
+      </a>
+      <a href="https://github.com/FawziaAB" target="_blank" class="project-card reveal">
+        <div class="project-num">04</div>
+        <div class="project-info">
+          <div class="project-title">Autres projets académiques</div>
+          <div class="project-desc">Machine learning, computer vision, IoT, et projets réseau réalisés dans le cadre du Mastère. Retrouvez l'ensemble sur mon GitHub.</div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">ML</span>
+          <span class="project-tag">IoT</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">04 — Contact</span>
+      <h2 class="section-title">Travaillons ensemble</h2>
+      <div class="divider"></div>
+    </div>
+    <p class="contact-lead reveal">
+      Je suis disponible pour une alternance en Data Analyst. N'hésitez pas à me contacter ou à consulter mon profil LinkedIn.
+    </p>
+    <div class="contact-links reveal">
+      <a href="mailto:aboubakararike22@gmail.com" class="contact-link">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Email
+      </a>
+      <a href="https://www.linkedin.com/in/fawzia-aboubakar-886b90369/" target="_blank" class="contact-link">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/FawziaAB" target="_blank" class="contact-link">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.167 6.839 9.489.5.09.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.891 1.529 2.341 1.088 2.91.832.091-.647.349-1.088.635-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.682-.103-.253-.447-1.27.097-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.376.202 2.393.1 2.646.641.698 1.028 1.591 1.028 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.577.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Fawzia Aboubakar — Data Analyst</p>
+  <p>Fait avec HTML / CSS / JS · <a href="https://github.com/FawziaAB" target="_blank">Code source</a></p>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
